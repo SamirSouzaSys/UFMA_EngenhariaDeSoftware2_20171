@@ -7,19 +7,19 @@ Aluno: Samir Souza <samir.guitar@gmail.com>
 Máquina de refrigerante
 
 Especificação
+- Dinheiro que entra não se mistura com dinheiro interno
+
 - módulo operação(cliente)
-	* cálculo de troco
-
-* Cédulas: 2, 5, 10
-* Moedas: 50, 1
-* 5 produtos (preços diferentes)
-* Dinheiro que entra não se mistura com dinheiro interno
-
+	* Efetuar Compra - Pendente
+	* cálculo de troco - Pendente
 
 - módulo manutenção(dono da máquina)
-	* Adicionar dinheiro
-	* Adicionar produto
-	* Relatório (valor interno de recurso e monetário)
+	* Adicionar dinheiro - ok
+	* Adicionar produto - ok
+	* Relatório (valor interno de recurso e monetário) - ok
+	* Adicionar 5 produtos (preços diferentes) - ok
+	* Adicionar - Cédulas: 2, 5, 10 - ok
+	* Adicionar - Moedas: 50, 1 - ok
 
 - cenários de teste e métricas
 	* jUnit
