@@ -11,7 +11,7 @@ Especificação
 
 - módulo operação(cliente)
 	* Efetuar Compra - Pendente
-	* cálculo de troco - Pendente
+	* cálculo de troco - ok
 
 - módulo manutenção(dono da máquina)
 	* Adicionar dinheiro - ok

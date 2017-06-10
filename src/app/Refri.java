@@ -29,4 +29,12 @@ public class Refri {
 	public int getQuantidadeAtual() {
 		return quantidadeAtual;
 	}
+	
+    public int compareNome(Refri refri) {
+		if(this.nome == refri.nome){
+			return 1;
+		}else{
+			return 0;
+		}
+    }
 }
