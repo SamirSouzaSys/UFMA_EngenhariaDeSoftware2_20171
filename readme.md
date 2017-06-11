@@ -10,7 +10,7 @@ Especificação
 - Dinheiro que entra não se mistura com dinheiro interno
 
 - módulo operação(cliente)
-	* Efetuar Compra - Pendente
+	* Efetuar Compra - ok
 	* cálculo de troco - ok
 
 - módulo manutenção(dono da máquina)
