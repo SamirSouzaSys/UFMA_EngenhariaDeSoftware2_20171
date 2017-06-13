@@ -28,31 +28,33 @@ public class App {
 		MaquinaRefri maq1 = new MaquinaRefri("Máquina 1", "Shopping 1");
 		result = prepararMaquina(maq1);
 		
+//		System.out.println(maq1.getAllProdutos());
+		
 //		System.out.println(maq1.relatorioAtual());
 		
 		Refri refriTeste = new Refri("RefriNome5");
 //		System.out.println(maq1.vender(refriTeste, 1, new Dinheiro(10.0)));
 		
-/*		ArrayList<Dinheiro> arrayTroco = new ArrayList<Dinheiro>();
-		System.out.println(maq1.calculoTroco(2.5,10.0,false,arrayTroco));
-		if(!arrayTroco.isEmpty()){
-			for (Dinheiro din : arrayTroco) {
-				System.out.println(din.getValor());
-			}
-		}
-		
-		ArrayList<Dinheiro> arrayTroco2 = new ArrayList<Dinheiro>();
-		System.out.println(maq1.calculoTroco(2.5,500.0,false,arrayTroco2));
-		if(!arrayTroco2.isEmpty()){
-			for (Dinheiro din : arrayTroco2) {
-				System.out.println(din.getValor());
-			}
-		}*/
-		System.out.println(maq1.relatorioAtual());
-		
-		maq1.vender(refriTeste, 2, new Dinheiro(2.0));
-		
-		System.out.println(maq1.relatorioAtual());
+//		ArrayList<Dinheiro> arrayTroco = new ArrayList<Dinheiro>();
+//		System.out.println(maq1.calculoTroco(2.5,10.0,false,arrayTroco));
+//		if(!arrayTroco.isEmpty()){
+//			for (Dinheiro din : arrayTroco) {
+//				System.out.println(din.getValor());
+//			}
+//		}
+//		
+//		ArrayList<Dinheiro> arrayTroco2 = new ArrayList<Dinheiro>();
+//		System.out.println(maq1.calculoTroco(2.5,500.0,false,arrayTroco2));
+//		if(!arrayTroco2.isEmpty()){
+//			for (Dinheiro din : arrayTroco2) {
+//				System.out.println(din.getValor());
+//			}
+//		}
+//		System.out.println(maq1.relatorioAtual());
+//		
+		System.out.println(maq1.vender(refriTeste, 2, new Dinheiro(5.0)));
+//		
+//		System.out.println(maq1.relatorioAtual());
 	}
 
 }

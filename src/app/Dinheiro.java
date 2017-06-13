@@ -50,4 +50,16 @@ public class Dinheiro implements Comparable<Dinheiro>{
 			return 0;
 		}
     }
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		StringBuilder result = new StringBuilder();
+		
+		String NEW_LINE = System.getProperty("line.separator");
+		
+		result.append("Valor: "+ valor + NEW_LINE);
+		result.append("Quantidade: "+  quantidade + NEW_LINE);
+		return result.toString();
+	}
 }

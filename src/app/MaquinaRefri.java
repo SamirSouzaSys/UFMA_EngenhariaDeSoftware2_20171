@@ -76,17 +76,17 @@ public class MaquinaRefri implements Log{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * retorna quantidade total de troco disponível na máquina
 	 * - De TODOS VALORES ou VALOR ESPECÍFICO
 	 * @return
 	 */
-	public Double getTrocoDisponível(Double valor){
+	public Double getTrocoDisponível(Double valorMoeda){
 		Double total = 0.0;
 
 		//Verifica o total de SOMENTE um valor específico
-		if(valor == 0)
+		if(valorMoeda == 0)
 		{
 			for(Dinheiro din : this.caixaTroco){
 				total += din.getQuantidade() * din.getValor();
@@ -97,7 +97,7 @@ public class MaquinaRefri implements Log{
 		// Verifica o TOTAL geral de todos os valores disponível na máquina
 		else { 
 			for(Dinheiro din : this.caixaTroco){
-				if(din.getValor() == valor){
+				if(din.getValor() == valorMoeda){
 					total += din.getQuantidade() * din.getValor();
 					this.log.add(this.getOperationToLog("Requisitou Troco Único"));
 					return total;
@@ -154,7 +154,7 @@ public class MaquinaRefri implements Log{
 		}
 		return relatorioTexto;
 	}
-	
+
 	/**
 	 * 
 	 * @param refriBuscado
@@ -163,7 +163,7 @@ public class MaquinaRefri implements Log{
 	private Refri getProduto(Refri refriBuscado){
 		if(this.estoque.isEmpty())
 			return null;
-		
+
 		for(Refri refriNaMaquina : this.estoque){
 			if(refriNaMaquina.getNome() == refriBuscado.getNome()){
 				return refriNaMaquina;
@@ -171,7 +171,31 @@ public class MaquinaRefri implements Log{
 		}
 		return null;
 	}
-	
+
+	public ArrayList<Refri> getAllProdutosList(){
+		if(this.estoque.isEmpty())
+			return null;
+
+		ArrayList<Refri> refrisEstoque = new ArrayList<Refri>();
+
+		for(Refri refriNaMaquina : this.estoque){
+			refrisEstoque.add(refriNaMaquina);
+		}
+		return refrisEstoque;
+	}
+
+	public String getAllProdutos(){
+		if(this.estoque.isEmpty())
+			return null;
+
+		String stringProdutos = "Lista de Produtos\n";
+
+		for(Refri refriNaMaquina : this.estoque){
+			stringProdutos += refriNaMaquina.toString();
+		}
+		return stringProdutos;
+	}
+
 	/**
 	 * 
 	 * @param refriBuscado
@@ -180,14 +204,14 @@ public class MaquinaRefri implements Log{
 	 */
 	private Boolean retirarProduto(Refri refriBuscado, int quantidadeARetirar){
 		Refri refri = this.getProduto(refriBuscado);
-		
+
 		if(refri == null)
 			return false;
-		
+
 		int posicao = this.estoque.indexOf(refri);
-		
+
 		int qtdAtual = refri.getQuantidadeAtual();
-		
+
 		if(qtdAtual >= quantidadeARetirar){
 			Refri refriEstoque = this.estoque.get(posicao);
 			refriEstoque.setQuantidadeAtual(qtdAtual - quantidadeARetirar);
@@ -196,7 +220,7 @@ public class MaquinaRefri implements Log{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Vende um refri se disponível na máquina
 	 * @param qtdRefri
@@ -206,12 +230,12 @@ public class MaquinaRefri implements Log{
 	 */
 	public Boolean vender(Refri refriEscolhido, int qtdRefri, Dinheiro valorInserido){
 		Refri refriParaVenda = this.getProduto(refriEscolhido);
-		
+
 		if(refriParaVenda != null){
 			Double precoUnidade = refriParaVenda.getPreco();
 			Double precoTotal = precoUnidade * qtdRefri;
 			ArrayList<Dinheiro> troco = new ArrayList<Dinheiro>();
-			
+
 			if( (refriParaVenda.getQuantidadeAtual() >= qtdRefri)
 					&& this.calculoTroco(precoTotal, valorInserido.getValor(), true, troco) )
 			{
@@ -219,12 +243,14 @@ public class MaquinaRefri implements Log{
 				this.addDinheiroVenda(valorInserido);
 				// Retirar Dinheiro de compra da bandeja de troco
 				this.calculoTroco(precoTotal, valorInserido.getValor(), false, troco);
-				
+
 				// Retirar Produto do Estoque
 				this.retirarProduto(refriEscolhido,qtdRefri);
 				// Add ao Log
+				
+				return true;
 			}
-//					&& refriParaVenda.getPreco() )
+			//					&& refriParaVenda.getPreco() )
 		}
 		return false;
 	}
@@ -244,18 +270,18 @@ public class MaquinaRefri implements Log{
 
 		//dinheiros que comporão o troco // Array de moedas/cédulas que comporá o troco
 		ArrayList<Dinheiro> dinheirosTroco  = new ArrayList<Dinheiro>();
-//		ArrayList<Dinheiro> copiaLocalTroco = this.caixaTroco;
+		//		ArrayList<Dinheiro> copiaLocalTroco = this.caixaTroco;
 		ArrayList<Dinheiro> copiaLocalTroco =  new ArrayList<Dinheiro>();
-		
+
 		for (Dinheiro dinheiro : this.caixaTroco) {
 			copiaLocalTroco.add(new Dinheiro(dinheiro.getQuantidade(), dinheiro.getValor()));
 		}
-		
+
 		//Sort - decrescente - No dinheiro
 		Collections.sort(copiaLocalTroco);
 
 		Double trocoValor = valorInserido - valorCompra;
-//		Double trocoAtual = trocoValor;
+		//		Double trocoAtual = trocoValor;
 
 		// Calcula lista de moedas que comporão o troco
 		// Cédulas/Moedas disponíveis na máquina
@@ -265,10 +291,10 @@ public class MaquinaRefri implements Log{
 					(din.getQuantidade() >= 1) ){
 				dinheirosTroco.add(new Dinheiro(1, din.getValor()));
 				din.delQuatidade(1);
-				
+
 				trocoValor -= din.getValor();
 			}
-			 //FIM FOR
+			//FIM FOR
 		}
 
 		//Troco Possível
@@ -300,5 +326,5 @@ public class MaquinaRefri implements Log{
 			return false;
 		}
 	}
-	
+
 }
