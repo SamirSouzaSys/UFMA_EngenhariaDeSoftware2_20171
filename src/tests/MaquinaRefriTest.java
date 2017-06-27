@@ -20,14 +20,14 @@ public class MaquinaRefriTest {
 
 		maq1 = new MaquinaRefri("Máquina 1", "Shopping 1");
 	}
-	
+
 	@After
 	public void afterClass(){
 
 		maq1 = null;
 	}	
+
 	public void prepararMaquinaTroco() {
-//		MaquinaRefri maq1 = new MaquinaRefri("Máquina 1", "Shopping 1");
 
 		// Adicionar Dinheiro
 		maq1.addDinheiroTroco(new Dinheiro(10,0.5));
@@ -38,9 +38,9 @@ public class MaquinaRefriTest {
 
 		//(10*0.5)+(10*5)+(10*2)+(10*10)+(20*0.01) = 175.2
 	}
-	
+
 	public void prepararMaquinaProduto() {
-//		MaquinaRefri maq1 = new MaquinaRefri("Máquina 1", "Shopping 1");
+		//		MaquinaRefri maq1 = new MaquinaRefri("Máquina 1", "Shopping 1");
 
 		//AdicionarProduto
 		maq1.addProduto(new Refri("RefriNome1", "", 1.5  ,4));
@@ -49,19 +49,19 @@ public class MaquinaRefriTest {
 		maq1.addProduto(new Refri("RefriNome4", "", 2.5  ,6));
 		maq1.addProduto(new Refri("RefriNome5", "", 2.25 ,10));
 	}
-	
+
 	// Tests
 	@Test
-	public void checarMaquinaTrocoSucesso(){
+	public void MaquinaTrocoSucesso(){
 		this.prepararMaquinaTroco();
 		Double result = maq1.getTrocoDisponível(0.0);
 		assertTrue (175.2 == result);
 	}
-	
+
 	@Test
-	public void checarMaquinaProdutosSucesso() {
+	public void MaquinaProdutosSucesso() {
 		this.prepararMaquinaProduto();
-		
+
 		ArrayList<Refri> refrisTest = new ArrayList<Refri>();
 
 		refrisTest.add(new Refri("RefriNome1", "", 1.5  ,4));
@@ -82,35 +82,35 @@ public class MaquinaRefriTest {
 	public void calculoTrocoSucesso() {
 		this.prepararMaquinaTroco();
 		this.prepararMaquinaProduto();
-		
+
 		ArrayList<Dinheiro> arrayTroco = new ArrayList<Dinheiro>();
-		
+
 		boolean resultTroco = maq1.calculoTroco(2.5,10.0,false,arrayTroco);
-		
+
 		assertTrue(resultTroco);
 	}
-	
+
 	@Test
 	public void calculoTrocoFalha() {
 		this.prepararMaquinaTroco();
 		this.prepararMaquinaProduto();
-		
+
 		ArrayList<Dinheiro> arrayTroco = new ArrayList<Dinheiro>();
-		
+
 		boolean resultTroco = maq1.calculoTroco(2.5,2.0,false,arrayTroco);
-		
+
 		assertFalse(resultTroco);
 	}
-	
+
 	@Test
 	public void listaDinheiroTrocoSucesso() {
 		this.prepararMaquinaTroco();
 		this.prepararMaquinaProduto();
-		
+
 		ArrayList<Dinheiro> arrayTroco = new ArrayList<Dinheiro>();
-		
+
 		boolean resultTroco = maq1.calculoTroco(2.5,10.0,false,arrayTroco);
-		
+
 		String stringTrocoMetodo = "Lista de Troco\n";
 		for (Dinheiro dimdim : arrayTroco) 
 			stringTrocoMetodo += dimdim.toString();
@@ -120,11 +120,11 @@ public class MaquinaRefriTest {
 		dinheirosTroco.add(new Dinheiro(0,5.0));
 		dinheirosTroco.add(new Dinheiro(0,2.0));
 		dinheirosTroco.add(new Dinheiro(0,0.5));
-		
+
 		String stringTrocoDinheiros = "Lista de Troco\n";
 		for (Dinheiro dimdim : dinheirosTroco) 
 			stringTrocoDinheiros += dimdim.toString();
-		
+
 		assertEquals(stringTrocoDinheiros, stringTrocoMetodo);
 	}
 
@@ -132,23 +132,72 @@ public class MaquinaRefriTest {
 	public void venderSucesso(){
 		this.prepararMaquinaTroco();
 		this.prepararMaquinaProduto();
-		
+
 		Refri refriTeste = new Refri("RefriNome5");
-		
+
 		Boolean resultVenda = maq1.vender( refriTeste, 2, new Dinheiro(1,5.0) );
-		
+
 		assertTrue(resultVenda);
+	}
+
+	@Test
+	public void venderFalha_ProdutoInexistente(){
+		this.prepararMaquinaTroco();
+//		this.prepararMaquinaProduto(); A MÁQUINA NÃO FOI CARREGADA COM PRODUTO
+
+		Refri refriTeste = new Refri("RefriNome6");
+
+		Boolean resultVenda = maq1.vender(refriTeste, 2, new Dinheiro(2.0));
+
+		assertFalse(resultVenda);
 	}
 	
 	@Test
-	public void venderFalha(){
-		this.prepararMaquinaTroco();
+	public void venderFalha_TrocoInexistente(){
+//		this.prepararMaquinaTroco(); A MÁQUINA NÃO FOI CARREGADA COM TROCO
 		this.prepararMaquinaProduto();
-		
+
 		Refri refriTeste = new Refri("RefriNome5");
-		
-		Boolean resultVenda = maq1.vender(refriTeste, 2, new Dinheiro(2.0));
-		
+
+		Boolean resultVenda = maq1.vender(refriTeste, 2, new Dinheiro(400.0));
+
 		assertFalse(resultVenda);
 	}
+	
+	@Test
+	public void venderFalha_TrocoProdutoInexistente(){
+//		this.prepararMaquinaTroco();
+//		this.prepararMaquinaProduto();
+
+		Refri refriTeste = new Refri("RefriNome5");
+
+		Boolean resultVenda = maq1.vender(refriTeste, 2, new Dinheiro(2.0));
+
+		assertFalse(resultVenda);
+	}
+	
+	@Test
+	public void venderFalha_ProdutoInsuficiente(){
+		this.prepararMaquinaTroco();
+		this.prepararMaquinaProduto();
+
+		Refri refriTeste = new Refri("RefriNome5");
+
+		Boolean resultVenda = maq1.vender(refriTeste, 11, new Dinheiro(25.0));
+
+		assertFalse(resultVenda);
+	}
+
+	@Test
+	public void venderFalha_TrocoIsuficiente(){
+		this.prepararMaquinaTroco();
+		this.prepararMaquinaProduto();
+
+		Refri refriTeste = new Refri("RefriNome5");
+
+		Boolean resultVenda = maq1.vender(refriTeste, 2, new Dinheiro(400.0));
+
+		assertFalse(resultVenda);
+	}
+	
 }

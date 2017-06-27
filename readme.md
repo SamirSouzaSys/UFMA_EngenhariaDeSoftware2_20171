@@ -1,13 +1,13 @@
 Projeto
 
 UFMA 2017.1 - Engenharia de Software 2
-Professor: Samyr Beliche
+Prof Dr Samyr Beliche <samyr.vale@gmail.com>
 Aluno: Samir Souza <samir.guitar@gmail.com>
 
 Máquina de refrigerante
 
 Especificação
-- Dinheiro que entra não se mistura com dinheiro interno
+- Dinheiro que entra através das compras não se misturam com dinheiro interno adicionador somente para o troco
 
 - módulo operação(cliente)
 	* Efetuar Compra - ok
